@@ -1,14 +1,15 @@
-import './App.css';
-import data from './data.js';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Navbar, Container, Nav } from 'react-bootstrap';
-import { useState } from "react";
-import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
-import Detail from './routes/Detail.js';
+import './App.css'
+import data from './data.js'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { Navbar, Container, Nav } from 'react-bootstrap'
+import { useState } from "react"
+import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
+import Detail from './routes/Detail.js'
+import axios from 'axios'
 
 function App() {  
 
-  let [shoes] = useState(data);
+  let [shoes, setShoes] = useState(data);
   let navigate = useNavigate(); {/* 페이지 이동을 도와준다. */}
 
   return (
@@ -21,9 +22,6 @@ function App() {
             <Nav.Link onClick={()=>{navigate('/')}}>Home</Nav.Link>
             <Nav.Link onClick={()=>{navigate('/detail')}}>Detail</Nav.Link>
             <Nav.Link onClick={()=>{navigate('/about')}}>About</Nav.Link>
-            
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -36,23 +34,30 @@ function App() {
         <div className="main-bg"></div>
         <div className="container">
           <div className="row">
-            {/*<Card shoes={shoes[0]} i={1}></Card>
-            <Card shoes={shoes[1]} i={2}></Card>
-            <Card shoes={shoes[2]} i={3}></Card>*/}
             {
               shoes.map((a, i)=>{
-                return (
-                  <Card shoes={shoes[i]} i={i+1}></Card>
-                )
+                return <Card shoes={shoes[i]} i={i+1}></Card>
             })}
           </div>
         </div>
+        <button onClick={()=>{
+          axios.get('https://codingapple1.github.io/shop/data2.json')
+          .then((결과)=>{
+            {/*성공*/}
+            {/*shoes에 가져온 데이터 추가*/}
+            let copy = [...shoes, ...결과.data];
+            setShoes(copy);
+          })
+          .catch(()=>{
+            {/*실패*/}
+          })
+        }}>더보기</button>
         </>
       }/>
         
       <Route path="/detail/:id" element={<Detail shoes={shoes} />}/>
       
-      <Route path="/about" element={<About/>}>
+      <Route path="about" element={<About/>}>
         <Route path="member" element={<div>멤버임</div>} />
         <Route path="location" element={<div>위치정보임</div>} />
       </Route>        
