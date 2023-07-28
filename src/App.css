@@ -1,3 +1,12 @@
+.start { /* 애니메이션 동작 전 */
+  transform : scale(0);
+}
+.end { /* 애니메이션 동작 전 */
+  transform : scale(1);
+  /*opacity가 변경될 때 0.5에 걸쳐서 변경해주세요.*/
+  transition : all 0.5s;
+}
+
 .main-bg {
   height: 300px;
   background-image: url('./img/bg.png');

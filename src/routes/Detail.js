@@ -46,7 +46,7 @@ function Detail(props){
         </div>
       </div>
 
-      <Nav variant="tabs" defaultActivityKey="link0"> {/*기본으로 눌려있을 버튼*/}
+      <Nav variant="tabs" defaultActiveKey="link0"> {/*기본으로 눌려있을 버튼*/}
         <Nav.Item>
           <Nav.Link onClick={()=>{ 탭변경(0) }} eventKey="link0">버튼0</Nav.Link>
         </Nav.Item>
@@ -63,8 +63,22 @@ function Detail(props){
 }
 
 function TabContent({탭}) {
-  {
-    return [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][탭]
+
+  let [fade, setFade] = useState('')
+
+  useEffect(()=>{
+    let a = setTimeout(()=>{ setFade('end') }, 10)
+    
+    return ()=>{
+      clearTimeout(a)
+      setFade('')
+    }
+  }, [탭]) /*탭이라는게 변경될 때마다 안의 코드 */
+
+  return (<div className={'start ' + fade}>
+    { [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][탭] }
+  </div>)
+    
   /*if (props.tab == 0){
     return <div>내용0</div>
   }
@@ -74,7 +88,6 @@ function TabContent({탭}) {
   if (props.tab == 2){
     return <div>내용1</div>
   }*/
-  }
 }
 
 export default Detail;
