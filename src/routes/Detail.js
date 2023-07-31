@@ -2,6 +2,8 @@ import React from "react";
 import { useEffect, useState  } from "react";
 import { useParams } from "react-router-dom";
 import { Nav } from 'react-bootstrap';
+import { addItem } from "../store.js";
+import { useDispatch } from "react-redux";
 
 function Detail(props){
 
@@ -9,6 +11,25 @@ function Detail(props){
   let 찾은상품 = props.shoes.find(x => x.id == id);
   let [alert, setAlert] = useState(true)
   let [탭, 탭변경] = useState(0)
+  let dispatch = useDispatch()
+
+  useEffect(()=>{
+
+    // 누가 Detail 페이지 접속하면
+    // 그 페이지에서 보이는 상품 id 가져와서
+    let 꺼낸거 = localStorage.getItem('watched')
+    꺼낸거 = JSON.parse(꺼낸거)
+    꺼낸거.push(찾은상품.id)
+    
+    // array에서 중복제거 쉽게하려면 Set 자료형 사용
+    꺼낸거 = new Set(꺼낸거)
+    꺼낸거 = Array.from(꺼낸거)
+
+    // localStorage에 watched 항목에 추가
+    localStorage.setItem('watched', JSON.stringify(꺼낸거))
+
+    // 기존데이터를 바꾸는게 아니라 더 추가를 하는 것.
+  }, [])
 
   useEffect(()=>{ {/*재렌더링마다 코드 실행하고 싶으면*/}
     let a = setTimeout(()=>{ setAlert(false) }, 2000)
@@ -42,7 +63,9 @@ function Detail(props){
             <h4 className="pt-5">{찾은상품.title}</h4>
             <p>{찾은상품.content}</p>
             <p>{찾은상품.price}원</p>
-            <button className="btn btn-danger">주문하기</button>
+            <button className="btn btn-danger" onClick={()=>{
+              dispatch(addItem({id : 2, name : 'Grey Yordan', count : 1}))
+            }}>주문하기</button>
         </div>
       </div>
 

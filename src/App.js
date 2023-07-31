@@ -2,21 +2,36 @@ import './App.css'
 import data from './data.js'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Navbar, Container, Nav } from 'react-bootstrap'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
 import Detail from './routes/Detail.js'
 import axios from 'axios'
 import Cart from './routes/Cart.js'
 
-function App() {  
+function App() {
+
+  // 최근 본 상품
+  useEffect(() => {
+    localStorage.setItem('watched', JSON.stringify( [] ))
+
+    // 이미 watched 항목이 있다면 setItem() 하지 말아주세요.
+  }, []);
 
   let [shoes, setShoes] = useState(data);
-  let navigate = useNavigate(); /* 페이지 이동을 도와준다. */
+  let [재고] = useState([10, 11, 12])
+  let navigate = useNavigate(); // 페이지 이동을 도와준다.
+
+  // localStorage - 데이터를 서버 없이도 반영구적으로 저장 가능
+  // 사이트를 재접속해도 데이터가 남아있다. 단, 브라우저 청소시 삭제됨.
+  // 원래는 문자열만 저장이 가능하지만 JSON으로 바꾸면 array/object로 저장할 수 있다.
+  // array/object -> json 변환은 JSON.stringify()
+  // json -> array/object 변환은 JSON.parse()
+  // 결론 : array/object -> json 변환하면 localStorage에 저장가능
 
   return (
     <div className="App">
 
-      <Navbar bg="dark" variant="dark">
+      <Navbar bg="light" variant="light">
         <Container>
           <Navbar.Brand href="#home">ShoeShop</Navbar.Brand>
           <Nav className="me-auto">
@@ -97,6 +112,6 @@ function About() {
   )
 }
 
-
-
 export default App;
+
+// 모든 state를 localStorage에 자동저장 => redux-perisist 사용.
