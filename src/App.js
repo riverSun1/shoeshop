@@ -18,7 +18,6 @@ function App() {
   }, []);
 
   let [shoes, setShoes] = useState(data);
-  let [재고] = useState([10, 11, 12])
   let navigate = useNavigate(); // 페이지 이동을 도와준다.
 
   // localStorage - 데이터를 서버 없이도 반영구적으로 저장 가능
@@ -33,10 +32,9 @@ function App() {
 
       <Navbar bg="light" variant="light">
         <Container>
-          <Navbar.Brand href="#home">ShoeShop</Navbar.Brand>
+          <Navbar.Brand href="/">ShoeShop</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link onClick={()=>{navigate('/')}}>Home</Nav.Link>
-            <Nav.Link onClick={()=>{navigate('/detail')}}>Detail</Nav.Link>
+            <Nav.Link onClick={()=>{navigate('/detail/0')}}>Detail</Nav.Link>
             <Nav.Link onClick={()=>{navigate('/about')}}>About</Nav.Link>
             <Nav.Link onClick={()=>{navigate('/cart')}}>Cart</Nav.Link>
           </Nav>
@@ -78,10 +76,7 @@ function App() {
       
       <Route path="/cart" element={ <Cart/> }/>
 
-      <Route path="about" element={<About/>}>
-        <Route path="member" element={<div>멤버임</div>} />
-        <Route path="location" element={<div>위치정보임</div>} />
-      </Route>        
+      <Route path="/about" element={<About/>}> </Route>        
         
       <Route path="*" element={<h4>404 : 없는 페이지 입니다.</h4>}/>
       

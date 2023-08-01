@@ -1,6 +1,5 @@
 import { Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { changeName } from "./../store.js"
 import { addCount } from './../store.js'
 
 // <tr> - 행 하나 생김

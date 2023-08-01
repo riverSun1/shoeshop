@@ -6,6 +6,9 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom"
 import store from './store.js'
 import { Provider } from 'react-redux';
+import { QueryClient } from 'react-query';
+
+const queryClient = new QueryClient()
 
 // <App /> <= store.js에 있던 state 전부 사용가능
 
